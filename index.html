@@ -16,6 +16,23 @@
             overflow: hidden;
         }
 
+        .float{
+            position:fixed;
+            width:60px;
+            height:60px;
+            top:60px;
+            right:20px;
+            background-color:#09C;
+            color:#FFF;
+            border-radius:50px;
+            text-align:center;
+            box-shadow: 2px 2px 3px #999;
+            z-index:10;
+        }
+
+        .my-float{
+            margin-top:22px;
+        }
 
         #people {
             width: 100%;
@@ -25,7 +42,8 @@
 </head>
 <body style="user-select: none;">
     <div id="container">
-      <div id="people"></div>
+        <a id="save-button" href="#" class="float"><i class="fas fa-cat"></i></a>
+        <div id="people"></div>
     </div>
 
     <script type="text/javascript">
@@ -35,15 +53,53 @@
             primaryFields: ["name", "title", "description1", "description2", "description3", "description4"],
             photoFields: ["image"],
             enablePrint: true,
-            enableExportToImage: true,
+            //enableExportToImage: true,
             expandToLevel: 3,
             dataSource: family_tree
         });
+
+        var buttonElement = document.getElementById("save-button");
+        buttonElement.addEventListener("click", function(){
+
+            var content = [];
+            
+            for (let key in orgChart.nodes)
+            {
+                var item = orgChart.nodes[key];
+                var object = {};
+                object.id = item.id;
+                object.parentId = item.pid;
+                object.name = item.data.name;
+                object.title = item.data.title;
+                object.description1 = item.data.description1;
+                object.description2 = item.data.description2;
+                object.description3 = item.data.description3;
+                object.description4 = item.data.description4;
+                content.push(object);
+            }
+
+            //uriContent = "data:application/octet-stream," + encodeURIComponent(JSON.stringify(content));
+            //newWindow = window.open(uriContent, 'data.txt');
+
+            download('data.txt', 'var family_tree = ' + JSON.stringify(content));
+        });
+
+        function download(filename, text) {
+            var pom = document.createElement('a');
+            pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            pom.setAttribute('download', filename);
+
+            if (document.createEvent) {
+                var event = document.createEvent('MouseEvents');
+                event.initEvent('click', true, true);
+                pom.dispatchEvent(event);
+            }
+            else {
+                pom.click();
+            }
+        }
+
     </script>
-
-
-
-
 
 </body>
 
