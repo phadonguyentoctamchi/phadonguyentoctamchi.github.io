@@ -16,22 +16,30 @@
             overflow: hidden;
         }
 
-        .float{
-            position:fixed;
-            width:60px;
-            height:60px;
-            top:60px;
-            right:20px;
-            background-color:#09C;
-            color:#FFF;
-            border-radius:50px;
-            text-align:center;
-            box-shadow: 2px 2px 3px #999;
-            z-index:10;
+        .fab {
+           width: 70px;
+           height: 70px;
+           background-color: red;
+           border-radius: 50%;
+           box-shadow: 0 6px 10px 0 #666;
+           transition: all 0.1s ease-in-out;
+
+           font-size: 20px;
+           color: white;
+           text-align: center;
+           line-height: 70px;
+
+           position: fixed;
+           right: 20px;
+           top: 60px;
+
+           z-index:10;
         }
 
-        .my-float{
-            margin-top:22px;
+        .fab:hover {
+           box-shadow: 0 6px 14px 0 #666;
+           transform: scale(1.05);
+           cursor: pointer;
         }
 
         #people {
@@ -42,7 +50,7 @@
 </head>
 <body style="user-select: none;">
     <div id="container">
-        <a id="save-button" href="#" class="float"><i class="fas fa-cat"></i></a>
+        <div id="save-button" class="fab">SAVE</div>
         <div id="people"></div>
     </div>
 
@@ -54,7 +62,7 @@
             photoFields: ["image"],
             enablePrint: true,
             //enableExportToImage: true,
-            expandToLevel: 3,
+            expandToLevel: 999,
             dataSource: family_tree
         });
 
@@ -62,7 +70,7 @@
         buttonElement.addEventListener("click", function(){
 
             var content = [];
-            
+
             for (let key in orgChart.nodes)
             {
                 var item = orgChart.nodes[key];
